@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "pos-system-frontend"
+  "defaultProject": "pos-system-frontend",
+  "cli": {
+    "analytics": "45f5d063-ff94-43f2-95e1-faf1ee4dd71f"
+  }
 }
