@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor() { }
+  collapes = true;
+
+  constructor() {
+  }
 
   ngOnInit(): void {
+  }
+
+  async collape(collapes: boolean, icon: HTMLElement): Promise<any> {
+    this.collapes = !collapes;
   }
 
 }

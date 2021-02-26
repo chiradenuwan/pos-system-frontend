@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AppService} from '../../../core/services/app.service';
 
 @Component({
   selector: 'app-main',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
-  constructor() { }
+
+  constructor(private appService: AppService) {
+  }
 
   ngOnInit(): void {
   }
 
+   getClasses(): any{
+    const classes = {
+      'pinned-sidebar': this.appService.getSidebarStat().isSidebarPinned,
+      'toggeled-sidebar': this.appService.getSidebarStat().isSidebarToggeled
+    };
+    return classes;
+  }
+
+   toggleSidebar(): any {
+    this.appService.toggleSidebar();
+  }
 }
