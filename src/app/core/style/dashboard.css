@@ -385,11 +385,11 @@ body {
  }
 
 .wrapper.default-theme nav.navbar .nav-link {
-  color: #6e7899;
+  color: #3d4465;
 }
 
 .wrapper.default-theme main .overlay {
-  background: #242939;
+  background: #3d4465;
 }
 
 .wrapper.default-theme main .sidebar {
@@ -409,23 +409,23 @@ body {
 }
 
 .wrapper.default-theme main .sidebar .sidebar-menu .menu-header {
-  color: rgba(61, 68, 101, .5);
+  color: #3d4465;
 }
 
 .wrapper.default-theme main .sidebar .sidebar-menu .menu-items a {
-  color: rgba(61, 68, 101, .7);
+  color: #3d4465;
 
 }
 
 .wrapper.default-theme main .sidebar .sidebar-menu .menu-items a i {
-  color:rgba(61, 68, 101, .7);
+  color:#3d4465;
   border: none;
   width: auto;
   font-size: 1.2rem;
 }
 
 .wrapper.default-theme main .sidebar .sidebar-menu .menu-items a:hover, .wrapper.default-theme main .sidebar .sidebar-menu .menu-items a.active {
-  background: rgba(61, 68, 101, .7);
+  background: #3d4465;
   color: white;
 }
 
