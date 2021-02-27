@@ -41,27 +41,42 @@ export class CustomerComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<any> {
+    await this.spinner.show();
     await this.loadAllCustomers();
+    await this.spinner.hide();
   }
 
+  /******************************** save or update customer **********************************/
   async save(savebtn: HTMLButtonElement): Promise<any> {
     this.customerForm.markAllAsTouched();
     if (this.customerForm.valid) {
       if (savebtn.innerText === 'Save') {
+        await this.spinner.show();
         await this.saveCustomer(savebtn);
+        await this.spinner.hide();
       } else {
+        await this.spinner.show();
         await this.updateCustomer(savebtn);
+        await this.spinner.hide();
       }
     } else {
       this.alertService.danger(this.alertJson.formValidateError);
     }
   }
 
+  /******************************** save or update customer **********************************/
+
+
+  /******************************** start cancel **********************************/
   async cancel(savebtn: HTMLButtonElement): Promise<any> {
     this.customerForm.reset();
     savebtn.innerText = 'Save';
   }
 
+  /******************************** end cancel **********************************/
+
+
+  /******************************** start save customer**********************************/
   async saveCustomer(savebtn: HTMLButtonElement): Promise<boolean> {
     return new Promise(resolve => {
       console.log(this.customerForm.valid);
@@ -71,17 +86,25 @@ export class CustomerComponent implements OnInit {
         if (res.message === 'Successfully saved!') {
           this.allCustomer.push(res.object);
           this.cancel(savebtn);
+          this.alertService.success(res.message);
+          resolve(true);
         } else {
-
+          this.alertService.warning(res.message);
+          resolve(false);
         }
 
       }, (error: any) => {
         console.log(error);
         this.alertService.danger(this.alertJson.backendError);
+        resolve(false);
       });
     });
   }
 
+  /******************************** end save customer**********************************/
+
+
+  /******************************** start update customer**********************************/
   async updateCustomer(savebtn: HTMLButtonElement): Promise<boolean> {
     return new Promise(resolve => {
       const customer = new Customer(this.name.value, this.mobile.value, this.address.value, this.customerDetails?.obj?.id);
@@ -91,31 +114,47 @@ export class CustomerComponent implements OnInit {
           this.alertService.success(res.message);
           this.allCustomer[this.customerDetails.index] = (res.object);
           this.cancel(savebtn);
+          resolve(true);
         } else {
           this.alertService.danger(res.message);
+          resolve(false);
         }
       }, (error: any) => {
         this.alertService.danger(this.alertJson.backendError);
+        resolve(false);
       });
     });
   }
 
+  /******************************** end update customer**********************************/
+
+
+  /******************************** delete customer**********************************/
   async remove(data: Customer, i: number): Promise<any> {
+    this.spinner.show();
     this.customerService.deleteCustomer(data?.id).subscribe((res: any) => {
       if (res.message === 'Removed Successful!') {
         console.log(res);
         this.allCustomer.splice(i, 1);
         this.alertService.success(res.message);
+        this.spinner.hide();
       } else {
         this.alertService.warning(res.message);
+        this.spinner.hide();
       }
     }, (error: any) => {
       this.alertService.danger(this.alertJson.backendError);
+      this.spinner.hide();
     });
   }
 
+  /******************************** delete customer**********************************/
+
+
+  /******************************** start load customer to edit**********************************/
   async edit(data: Customer, i: number, savebtn: HTMLButtonElement, element: HTMLElement): Promise<boolean> {
-    return new Promise(resolve => {
+    await this.spinner.show();
+    return new Promise(async resolve => {
       savebtn.innerText = 'Update';
       console.log(data);
       this.customerDetails = {obj: data, index: i};
@@ -124,17 +163,28 @@ export class CustomerComponent implements OnInit {
       this.mobile.setValue(data.mobile);
       this.address.setValue(data.address);
       element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
+      await this.spinner.hide();
     });
   }
 
+  /******************************** end load customer to edit**********************************/
+
+
+  /******************************** start load all customer**********************************/
   async loadAllCustomers(): Promise<boolean> {
     return new Promise(async resolve => {
       await this.spinner.show();
       this.customerService.getCustomers().subscribe((res: any) => {
         console.log(res);
         this.allCustomer = res.object;
+        resolve(true);
+      }, error => {
+        resolve(false);
       });
     });
   }
+
+  /******************************** end load all customer **********************************/
+
 
 }

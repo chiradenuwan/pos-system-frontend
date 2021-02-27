@@ -88,22 +88,22 @@
             <td>{{data?.mobile}}</td>
             <td>{{data?.address}}</td>
             <td style="min-width: 55px; width: 55px;">
+              <i (cancel)="''"
+                 (confirm)="edit(data, i, savebtn, element)"
+                 [popoverMessage]="'Are you sure to edit this?'"
+                 [popoverTitle]="'Edit Confirmation'"
+                 class="far fa-edit ml-1"
+                 mwlConfirmationPopover
+                 placement="left"></i>
 
               <i (cancel)="''"
                  (confirm)="remove(data,i)"
                  [popoverMessage]="'Are you sure to remove this?'"
                  [popoverTitle]="'Remove Confirmation'"
-                 class="far fa-trash-alt ml-1"
+                 class="far fa-trash-alt ml-2"
                  mwlConfirmationPopover
                  placement="left"></i>
 
-              <i (cancel)="''"
-                 (confirm)="edit(data, i, savebtn, element)"
-                 [popoverMessage]="'Are you sure to edit this?'"
-                 [popoverTitle]="'Edit Confirmation'"
-                 class="far fa-edit ml-2"
-                 mwlConfirmationPopover
-                 placement="left"></i>
 
             </td>
           </tr>

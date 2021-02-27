@@ -83,8 +83,10 @@ export class OrderComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<any> {
+    await this.spinner.show();
     await this.loadAllCustomers();
     await this.loadAllItems();
+    await this.spinner.hide();
   }
 
   async save(savebtn: HTMLButtonElement): Promise<any> {
@@ -155,6 +157,8 @@ export class OrderComponent implements OnInit {
         console.log(res);
         this.allCustomer = res.object;
         resolve(true);
+      }, error => {
+        resolve(false);
       });
     });
   }
