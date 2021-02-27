@@ -15,6 +15,9 @@ export class CustomerService {
   getCustomers(): Observable<any> {
     return this.http.get(environment.baseUrl + '/customer/getAll');
   }
+  getcustomerdetails(): Observable<any> {
+    return this.http.get(environment.baseUrl + '/customer/customerdetails');
+  }
 
   saveCustomer(customer: Customer): Observable<any> {
     return this.http.post(environment.baseUrl + '/customer/save', customer);
