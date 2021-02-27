@@ -33,10 +33,10 @@
             <div class="form-group">
               <label class="title-1" for="address">Address <span class="required"> *</span></label>
               <input [formControl]="address" class="form-control custom-input-style" id="address"
-                     placeholder="Unit Price"
+                     placeholder="Address"
                      type="text">
               <div *ngIf="address.touched && address.invalid" class="error-message">
-                <div *ngIf="address.errors.required">Unit Price is required!</div>
+                <div *ngIf="address.errors.required">Address is required!</div>
                </div>
             </div>
           </div>
@@ -76,21 +76,21 @@
           <tr>
             <th></th>
             <th>Name</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
+            <th>Mobile</th>
+            <th>Address</th>
             <th>Action</th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let data of allCustomer; let i=index">
-            <td class="text-center">{{data?.id}}</td>
+            <td class="text-center">{{i + 1}}</td>
             <td>{{data?.name}}</td>
             <td>{{data?.mobile}}</td>
             <td>{{data?.address}}</td>
             <td style="min-width: 55px; width: 55px;">
 
               <i (cancel)="''"
-                 (confirm)="remove(data)"
+                 (confirm)="remove(data,i)"
                  [popoverMessage]="'Are you sure to remove this?'"
                  [popoverTitle]="'Remove Confirmation'"
                  class="far fa-trash-alt ml-1"
