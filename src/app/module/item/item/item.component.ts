@@ -75,11 +75,11 @@ export class ItemComponent implements OnInit {
   /**************************** start save item ********************************/
   async saveItem(savebtn: HTMLButtonElement): Promise<boolean> {
     return new Promise(resolve => {
-      console.log(this.itemForm.valid);
+
       const item = new Item(this.name.value, this.qty.value, this.unitPrice.value);
       this.itemService.saveItem(item).subscribe((res: any) => {
         if (res.message === 'Successfully saved!') {
-          console.log(res);
+
           this.alertService.success(res.message);
           this.allItems.push(res.object);
           this.cancel(savebtn);
@@ -99,11 +99,11 @@ export class ItemComponent implements OnInit {
   async updateItem(savebtn: HTMLButtonElement): Promise<boolean> {
     this.spinner.show();
     return new Promise(resolve => {
-      console.log(this.itemForm.valid);
+
       const item = new Item(this.name.value, this.qty.value, this.unitPrice.value, this.item_details?.obj?.id);
       this.itemService.updateItem(item).subscribe((res: any) => {
         if (res.message === 'Update Successful!') {
-          console.log(res);
+
           this.alertService.success(res.message);
           this.allItems[this.item_details.index] = (res.object);
           this.cancel(savebtn);
@@ -124,11 +124,11 @@ export class ItemComponent implements OnInit {
 
   /**************************** start delete item ********************************/
   async remove(data: Item, i: number): Promise<any> {
-    console.log(data);
+
     this.spinner.show();
     this.itemService.deleteItem(data?.id).subscribe((res: any) => {
       if (res.message === 'Removed Successful!') {
-        console.log(res);
+
         this.allItems.splice(i, 1);
         this.alertService.success(res.message);
         this.spinner.hide();
@@ -137,7 +137,7 @@ export class ItemComponent implements OnInit {
         this.spinner.hide();
       }
     }, error => {
-      console.log(error);
+
       this.alertService.danger(this.alertJson.backendError);
       this.spinner.hide();
     });
@@ -152,7 +152,7 @@ export class ItemComponent implements OnInit {
     return new Promise(resolve => {
       savebtn.innerText = 'Update';
       this.item_details = {obj: data, index: i};
-      console.log(data);
+
       this.name.setValue(data.name);
       this.qty.setValue(data.qty);
       this.unitPrice.setValue(data.unit_price);
@@ -169,7 +169,7 @@ export class ItemComponent implements OnInit {
     return new Promise(async resolve => {
       await this.spinner.show();
       this.itemService.getAllItems().subscribe((res: any) => {
-        console.log(res);
+
         this.allItems = res.object;
         resolve(true);
       }, error => {

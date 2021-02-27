@@ -59,9 +59,9 @@ export class SignInComponent implements OnInit {
       // @ts-ignore
       this.userService.signIn(signInObject)
         .subscribe((res: any) => {
-          console.log(res);
 
-          console.log(isRemember);
+
+
           if (res.code === 200) {
             const data = new User(res.object.id, res.object.name, res.object.username);
             if (!isRemember) {
@@ -77,7 +77,7 @@ export class SignInComponent implements OnInit {
             resolve(false);
           }
         }, (error1: any) => {
-          console.log(error1);
+
           if (error1.error.message === 'Unauthorised') {
             this.alertService.danger('Username or password incorrect!');
           } else {

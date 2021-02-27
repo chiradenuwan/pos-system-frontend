@@ -79,10 +79,10 @@ export class CustomerComponent implements OnInit {
   /******************************** start save customer**********************************/
   async saveCustomer(savebtn: HTMLButtonElement): Promise<boolean> {
     return new Promise(resolve => {
-      console.log(this.customerForm.valid);
+
       const customer = new Customer(this.name.value, this.mobile.value, this.address.value);
       this.customerService.saveCustomer(customer).subscribe((res: any) => {
-        console.log(res);
+
         if (res.message === 'Successfully saved!') {
           this.allCustomer.push(res.object);
           this.cancel(savebtn);
@@ -94,7 +94,7 @@ export class CustomerComponent implements OnInit {
         }
 
       }, (error: any) => {
-        console.log(error);
+
         this.alertService.danger(this.alertJson.backendError);
         resolve(false);
       });
@@ -109,7 +109,7 @@ export class CustomerComponent implements OnInit {
     return new Promise(resolve => {
       const customer = new Customer(this.name.value, this.mobile.value, this.address.value, this.customerDetails?.obj?.id);
       this.customerService.updateCustomer(customer).subscribe((res: any) => {
-        console.log(res);
+
         if (res.message === 'Update Successful!') {
           this.alertService.success(res.message);
           this.allCustomer[this.customerDetails.index] = (res.object);
@@ -134,7 +134,7 @@ export class CustomerComponent implements OnInit {
     this.spinner.show();
     this.customerService.deleteCustomer(data?.id).subscribe((res: any) => {
       if (res.message === 'Removed Successful!') {
-        console.log(res);
+
         this.allCustomer.splice(i, 1);
         this.alertService.success(res.message);
         this.spinner.hide();
@@ -156,9 +156,9 @@ export class CustomerComponent implements OnInit {
     await this.spinner.show();
     return new Promise(async resolve => {
       savebtn.innerText = 'Update';
-      console.log(data);
+
       this.customerDetails = {obj: data, index: i};
-      console.log(this.customerDetails);
+
       this.name.setValue(data.name);
       this.mobile.setValue(data.mobile);
       this.address.setValue(data.address);
@@ -175,7 +175,7 @@ export class CustomerComponent implements OnInit {
     return new Promise(async resolve => {
       await this.spinner.show();
       this.customerService.getCustomers().subscribe((res: any) => {
-        console.log(res);
+
         this.allCustomer = res.object;
         resolve(true);
       }, error => {
