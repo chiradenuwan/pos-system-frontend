@@ -1,8 +1,216 @@
-<div class="container">
+<div #element class="container">
   <div class="card">
     <div class="card-body p-4">
       <h6 class="align-content-start font-weight-bold"> Order Manage</h6>
     </div>
 
+    <div class="col-lg-12 col-sm-12">
+      <form [formGroup]="orderForm">
+        <div class="row">
+          <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+            <div class="form-group">
+              <label class="title-1" for="name">Name <span class="required"> *</span></label>
+              <select [formControl]="name" class="form-control custom-input-style" id="name" name="name">
+                <option value="select">Select</option>
+                <option value="Select">A</option>
+                <option value="Select">B</option>
+                <option value="Select">C</option>
+                <option value="Select">D</option>
+              </select>
+              <div *ngIf="name.touched && name.invalid" class="error-message">
+                <div *ngIf="name.errors.required">Name is required!</div>
+                <div *ngIf="name.errors.pattern">Name is required!</div>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+            <div class="form-group">
+              <label class="title-1" for="itemname">Item Name <span class="required"> *</span></label>
+              <select [formControl]="itemname" class="form-control custom-input-style" id="itemname" name="name">
+                <option value="select">Select</option>
+                <option value="Select">A</option>
+                <option value="Select">B</option>
+                <option value="Select">C</option>
+                <option value="Select">D</option>
+              </select>
+              <div *ngIf="itemname.touched && itemname.invalid" class="error-message">
+                <div *ngIf="itemname.errors.required">Item Name is required!</div>
+                <div *ngIf="itemname.errors.pattern">Item Name is required!</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+            <div class="form-group">
+              <label class="title-1" for="quantity">Unit Price <span class="required"> *</span></label>
+              <input [formControl]="unitprice" class="form-control custom-input-style" id="unitprice" readonly
+                     placeholder="Unit Price"
+                     type="text">
+              <div *ngIf="unitprice.touched && unitprice.invalid" class="error-message">
+                <div *ngIf="unitprice.errors.pattern">Invalid unitprice!</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+            <div class="form-group">
+              <label class="title-1" for="quantity">Quantity <span class="required"> *</span></label>
+              <input [formControl]="quantity" class="form-control custom-input-style" id="quantity"
+                     placeholder="Quantity"
+                     type="text">
+              <div *ngIf="quantity.touched && quantity.invalid" class="error-message">
+                <div *ngIf="quantity.errors.required">Quantity is required!</div>
+                <div *ngIf="quantity.errors.pattern">Invalid quantity!</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+            <div class="form-group">
+              <label class="title-1" for="subtotal">Sub Total <span class="required"> *</span></label>
+              <input [formControl]="subtotal" class="form-control custom-input-style"  readonly id="subtotal"
+                     placeholder="Sub Total"
+                     type="text">
+              <div *ngIf="subtotal.touched && subtotal.invalid" class="error-message">
+                <div *ngIf="subtotal.errors.pattern">Invalid subtotal!</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="btn-container">
+              <button (cancel)="''"
+                      (confirm)="cancel(savebtn)"
+                      [disabled]="orderForm.disabled"
+                      [popoverMessage]="'Cancel Confirmation'"
+                      [popoverTitle]="'Cancel Confirmation'"
+                      class="btn custom-cancel-close-btn-style"
+                      mwlConfirmationPopover
+                      placement="top">
+                Cancel
+              </button>
+
+              <button #savebtn
+                      (cancel)="''"
+                      (confirm)="save(savebtn)"
+                      [disabled]="orderForm.disabled"
+                      [popoverMessage]="'Are you sure to add?'"
+                      [popoverTitle]="'Add Confirmation'"
+                      class="btn custom-ok-save-btn-style"
+                      mwlConfirmationPopover
+                      placement="top">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-12 col-lg-12">
+      <div class="table-responsive" style="margin-top: 25px;height: 250px">
+        <table class="table">
+          <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of allCustomer; let i=index">
+            <td class="text-center">{{data?.id}}</td>
+            <td>{{data?.name}}</td>
+            <td>{{data?.mobile}}</td>
+            <td>{{data?.address}}</td>
+            <td style="min-width: 55px; width: 55px;">
+
+              <i (cancel)="''"
+                 (confirm)="remove(data)"
+                 [popoverMessage]="'Are you sure to remove this?'"
+                 [popoverTitle]="'Remove Confirmation'"
+                 class="far fa-trash-alt ml-1"
+                 mwlConfirmationPopover
+                 placement="left"></i>
+
+              <i (cancel)="''"
+                 (confirm)="edit(data, i, savebtn, element)"
+                 [popoverMessage]="'Are you sure to edit this?'"
+                 [popoverTitle]="'Edit Confirmation'"
+                 class="far fa-edit ml-2"
+                 mwlConfirmationPopover
+                 placement="left"></i>
+
+            </td>
+          </tr>
+          <tr>
+          <td colspan="5" *ngIf="allCustomer.length===0" class="table-empty" >No any order items</td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-12 col-md- col-lg-12 col-xl-12">
+      <div class="col-6 col-md-6 col-lg-4 col-xl-3 float-right">
+        <div class="form-group">
+          <label class="title-1" for="total">Total <span class="required"> *</span></label>
+          <input [value]="totalamount.value" class="form-control custom-input-style"  readonly id="total"
+                 placeholder="Total"
+                 type="text">
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md- col-lg-12 col-xl-12">
+      <div class="col-6 col-md-6 col-lg-4 col-xl-3 float-right">
+        <div class="form-group">
+          <label class="title-1" for="discount">Discount <span class="required"> *</span></label>
+          <input [formControl]="discount" class="form-control custom-input-style" id="discount"
+                 placeholder="Discount "
+                 type="text">
+          <div *ngIf="discount.touched && discount.invalid" class="error-message">
+            <div *ngIf="discount.errors.pattern">Invalid discount!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md- col-lg-12 col-xl-12">
+      <div class="col-6 col-md-6 col-lg-4 col-xl-3 float-right">
+        <div class="form-group">
+          <label class="title-1" for="totalamount">Grand Total <span class="required"> *</span></label>
+          <input [formControl]="totalamount" class="form-control custom-input-style"  readonly id="totalamount"
+                 placeholder="Grand Total"
+                 type="text">
+          <div *ngIf="totalamount.touched && totalamount.invalid" class="error-message">
+            <div *ngIf="totalamount.errors.pattern">Invalid totalamount!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="btn-container">
+        <button (cancel)="''"
+                (confirm)="cancel(savebtn)"
+                [disabled]="orderForm.disabled"
+                [popoverMessage]="'Cancel Confirmation'"
+                [popoverTitle]="'Cancel Confirmation'"
+                class="btn custom-cancel-close-btn-style"
+                mwlConfirmationPopover
+                placement="top">
+          Cancel
+        </button>
+
+        <button
+                (cancel)="''"
+                (confirm)="placeOrder()"
+                [disabled]="allCustomer.length==0"
+                [popoverMessage]="'Are you sure to add?'"
+                [popoverTitle]="'Add Confirmation'"
+                class="btn custom-ok-save-btn-style"
+                mwlConfirmationPopover
+                placement="top">
+          Place Order
+        </button>
+      </div>
+    </div>
   </div>
+
 </div>

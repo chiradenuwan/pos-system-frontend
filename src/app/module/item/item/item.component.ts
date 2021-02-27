@@ -12,7 +12,7 @@ import {ItemService} from '../../../core/services/item.service';
 export class ItemComponent implements OnInit {
   itemForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    qty: new FormControl('', [Validators.required]),
+    qty: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{0,}(.)[0-9]{0,}$')]),
     unitPrice: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{0,}(.)[0-9]{0,}$')]),
   });
   allItems: Item[] = [

@@ -25,7 +25,7 @@
                      type="text">
               <div *ngIf="qty.touched && qty.invalid" class="error-message">
                 <div *ngIf="qty.errors.required">Quantity is required!</div>
-                <div *ngIf="qty.errors.pattern">Invalid qty address!</div>
+                <div *ngIf="qty.errors.pattern">Invalid qty!</div>
               </div>
             </div>
           </div>
@@ -107,6 +107,9 @@
                  placement="left"></i>
 
             </td>
+          </tr>
+          <tr>
+            <td colspan="5" *ngIf="allItems.length===0" class="table-empty" >No any item found</td>
           </tr>
           </tbody>
         </table>
