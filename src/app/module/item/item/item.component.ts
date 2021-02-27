@@ -24,6 +24,9 @@ export class ItemComponent implements OnInit {
   // tslint:disable-next-line:variable-name
   item_details: any;
 
+  constructor(private spinner: NgxSpinnerService, private itemService: ItemService, private alertService: AlertService) {
+  }
+
   get name(): any {
     return this.itemForm.get('name');
   }
@@ -37,17 +40,21 @@ export class ItemComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<any> {
+    await this.spinner.show();
     await this.loadAllItems();
+    await this.spinner.hide();
   }
 
-  constructor(private spinner: NgxSpinnerService, private itemService: ItemService, private alertService: AlertService) {
-  }
-
+  /**************************** start cancel add item ********************************/
   async cancel(savebtn: HTMLButtonElement): Promise<any> {
     this.itemForm.reset();
     savebtn.innerText = 'Save';
   }
 
+  /**************************** end cancel add item ********************************/
+
+
+  /**************************** start save or update item ********************************/
   async save(savebtn: HTMLButtonElement): Promise<any> {
     this.itemForm.markAllAsTouched();
 
@@ -62,6 +69,10 @@ export class ItemComponent implements OnInit {
     }
   }
 
+  /**************************** end save or update item ********************************/
+
+
+  /**************************** start save item ********************************/
   async saveItem(savebtn: HTMLButtonElement): Promise<boolean> {
     return new Promise(resolve => {
       console.log(this.itemForm.valid);
@@ -81,7 +92,12 @@ export class ItemComponent implements OnInit {
     });
   }
 
+  /**************************** end save item ********************************/
+
+
+  /**************************** start update item ********************************/
   async updateItem(savebtn: HTMLButtonElement): Promise<boolean> {
+    this.spinner.show();
     return new Promise(resolve => {
       console.log(this.itemForm.valid);
       const item = new Item(this.name.value, this.qty.value, this.unitPrice.value, this.item_details?.obj?.id);
@@ -91,32 +107,48 @@ export class ItemComponent implements OnInit {
           this.alertService.success(res.message);
           this.allItems[this.item_details.index] = (res.object);
           this.cancel(savebtn);
+          this.spinner.hide();
         } else {
           this.alertService.danger(res.message);
+          this.spinner.hide();
         }
       }, error => {
         this.alertService.danger(this.alertJson.backendError);
+        this.spinner.hide();
       });
     });
   }
 
+  /**************************** end update item ********************************/
+
+
+  /**************************** start delete item ********************************/
   async remove(data: Item, i: number): Promise<any> {
     console.log(data);
+    this.spinner.show();
     this.itemService.deleteItem(data?.id).subscribe((res: any) => {
       if (res.message === 'Removed Successful!') {
         console.log(res);
         this.allItems.splice(i, 1);
         this.alertService.success(res.message);
+        this.spinner.hide();
       } else {
         this.alertService.warning(res.message);
+        this.spinner.hide();
       }
     }, error => {
       console.log(error);
       this.alertService.danger(this.alertJson.backendError);
+      this.spinner.hide();
     });
   }
 
+  /**************************** end delete item ********************************/
+
+
+  /**************************** start load items to feilds ********************************/
   async edit(data: Item, i: number, savebtn: HTMLButtonElement, element: HTMLElement): Promise<boolean> {
+    this.spinner.show();
     return new Promise(resolve => {
       savebtn.innerText = 'Update';
       this.item_details = {obj: data, index: i};
@@ -125,18 +157,28 @@ export class ItemComponent implements OnInit {
       this.qty.setValue(data.qty);
       this.unitPrice.setValue(data.unit_price);
       element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
+      this.spinner.hide();
     });
   }
 
+  /**************************** end load items to feilds ********************************/
+
+
+  /**************************** start load all items to table ********************************/
   async loadAllItems(): Promise<boolean> {
     return new Promise(async resolve => {
       await this.spinner.show();
       this.itemService.getAllItems().subscribe((res: any) => {
         console.log(res);
         this.allItems = res.object;
+        resolve(true);
+      }, error => {
+        resolve(false);
       });
     });
   }
+
+  /**************************** end load all items to table ********************************/
 
 
 }
