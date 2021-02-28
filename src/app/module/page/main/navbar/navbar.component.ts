@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AppService} from '../../../../core/services/app.service';
 import {Route, Router} from '@angular/router';
 
@@ -10,15 +10,13 @@ import {Route, Router} from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   isCollapsed: any;
-  notificationCount = 0;
-  allNotification: any;
-  str = 'Message {{i}} Title here ok then here is overiding the text.';
+  name = JSON.parse(localStorage.getItem('user') as string).name;
 
   constructor(private appService: AppService, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.allNotification = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+ 
   }
 
   toggleSidebarPin(): any {
