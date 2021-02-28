@@ -300,14 +300,17 @@ export class OrderComponent implements OnInit {
             if (res.message === 'Successfully saved!') {
               this.alertService.success(res.message);
               this.clearOrder();
+              this.spinner.hide();
               resolve(true);
             } else {
               this.alertService.warning(res.message);
+              this.spinner.hide();
               resolve(false);
             }
 
           }, (errors: any) => {
             this.alertService.warning(this.alertJson.backendError);
+            this.spinner.hide();
           });
         }
       }
@@ -322,7 +325,7 @@ export class OrderComponent implements OnInit {
   clearOrder(): any {
     this.orderForm.reset();
     this.allSelectedItems = [];
-    this.orderForm.reset();
+    this.placeOrderForm.reset();
     this.itemname.setValue('select');
     this.name.setValue('select');
     this.quantity.setValue(0);

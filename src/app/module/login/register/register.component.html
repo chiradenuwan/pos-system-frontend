@@ -4,17 +4,24 @@
 
     <div class="title-3 text-center">Welcome</div>
 
-    <form (submit)="log(rememberMe.checked)" [formGroup]="loginForm" autocomplete="off" class="mt-3">
+    <form (submit)="register()" [formGroup]="registerForm" autocomplete="off" class="mt-3">
 
       <div class="form-group position-relative">
+        <label class="title-1" for="name">Name</label>
+        <input (keyup.enter)="user.select()" [formControl]="name" class="form-control custom-input-style"
+               id="name" placeholder="Name" type="text">
+        <div *ngIf="name.invalid && name.touched" class="error-message">
+          <div *ngIf="name.errors.required">Name is required !</div>
+        </div>
+      </div>
+      <div class="form-group position-relative">
         <label class="title-1" for="username">Username</label>
-        <input (keyup.enter)="passwordIn.select()" [formControl]="username" class="form-control custom-input-style"
-               id="username" placeholder="Username or Email" type="text">
+        <input #user (keyup.enter)="passwordIn.select()" [formControl]="username"
+               class="form-control custom-input-style" id="username" placeholder="Name" type="text">
         <div *ngIf="username.invalid && username.touched" class="error-message">
           <div *ngIf="username.errors.required">Username is required !</div>
         </div>
       </div>
-
       <div class="form-group position-relative">
         <label class="title-1" for="passwordInput">Password</label>
         <input #passwordIn [formControl]="password" autocomplete="new-password" class="form-control custom-input-style"
@@ -30,20 +37,14 @@
         </div>
       </div>
 
-      <div>
-        <div style="margin-bottom: 10px;">
-          <input #rememberMe id="rememberMe" name="rememberMeInput" style="cursor: pointer" type="checkbox">
-          <label class="title-1" for="rememberMe" style="padding-left: 10px;">Remember Me</label>
-        </div>
-      </div>
-
       <div class="text-center">
-        <button [disabled]="!loginForm.valid" class="w-100 btn custom-ok-save-btn-style" type="submit">Sign In</button>
+        <button [disabled]="!registerForm.valid" class="w-100 btn custom-ok-save-btn-style" type="submit">Register
+        </button>
       </div>
 
-      <div class="text-center title-1 m-2" routerLink="/sign-in/register"
+      <div class="text-center title-1 m-2" routerLink="/sign-in/login"
            style="outline: none; cursor: pointer;">
-        Register
+        Login
       </div>
     </form>
 
