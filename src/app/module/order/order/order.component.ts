@@ -115,7 +115,7 @@ export class OrderComponent implements OnInit {
   /****************************** start cancel**************************/
   async cancel(savebtn: HTMLButtonElement): Promise<any> {
     this.orderForm.reset();
-    savebtn.innerText = 'Save';
+    savebtn.innerText = 'Add to cart';
   }
 
   /****************************** end cancel **************************/
@@ -157,7 +157,7 @@ export class OrderComponent implements OnInit {
   async edit(data: SelectedItem, i: number, savebtn: HTMLButtonElement, element: HTMLElement): Promise<boolean> {
     return new Promise(async resolve => {
 
-      savebtn.innerText = 'Update';
+      savebtn.innerText = 'Update cart';
       this.itemname.setValue(data.name);
       this.quantity.setValue(data.qty);
       this.unitprice.setValue(data.unit_price);
@@ -241,14 +241,10 @@ export class OrderComponent implements OnInit {
   async calculateTotal(subtot: number): Promise<boolean> {
     this.totalamount.value = 0;
     return new Promise(resolve => {
-      for (let i = 0; i < this.allSelectedItems.length; i++) {
-        this.totalamount.value += this.allSelectedItems[i].sub_total;
-        this.grandtotal.value += this.allSelectedItems[i].sub_total;
-
+      for (const itemnameElement of this.allSelectedItems) {
+        this.totalamount.value += itemnameElement.sub_total;
+        this.grandtotal.value += itemnameElement.sub_total;
       }
-
-
-
       resolve(true);
     });
   }
@@ -348,16 +344,14 @@ export class OrderComponent implements OnInit {
       });
 
 
+      // tslint:disable-next-line:max-line-length
       const x = new SelectedItem(this.itemname.value, this.quantity.value, this.subtotal.value, this.unitprice.value, this.orderForm.value.itemId);
-
       if (index !== -1) {
         this.allSelectedItems[index] = x;
       } else {
         this.allSelectedItems.push(x);
       }
       await this.calculateTotal(this.subtotal.value);
-
-
       this.orderForm.reset();
       this.itemname.setValue('select');
       this.quantity.setValue(0);
@@ -365,7 +359,7 @@ export class OrderComponent implements OnInit {
       this.subtotal.setValue(0);
       this.quantityonHand.setValue(0);
       this.grandtotal.setValue(this.totalamount.value);
-      savebtn.innerText = 'Save';
+      savebtn.innerText = 'Add to cart';
       this.spinner.hide();
       resolve(true);
     });
