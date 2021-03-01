@@ -142,6 +142,9 @@
         </table>
       </div>
     </div>
+    <div class="col-12 col-md-12 col-lg-12 col-xl-12 mt-3 mb-3">
+      <button class="btn custom-new-customer-btn-style" data-toggle="modal" data-target="#exampleModalCenter">NEW CUSTOMER</button>
+    </div>
     <div class="col-12 col-md-12 col-lg-12 col-xl-12">
       <form [formGroup]="placeOrderForm">
         <div class="row">
@@ -222,4 +225,87 @@
     </div>
   </div>
 
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="title-2" id="exampleModalLongTitle">New Customer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="col-lg-12 col-sm-12">
+          <form [formGroup]="customerForm">
+
+              <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="form-group">
+                  <label class="title-1" for="cus_name">Name <span class="required"> *</span></label>
+                  <input [formControl]="cus_name" class="form-control custom-input-style" id="cus_name" placeholder="Name"
+                         type="text">
+                  <div *ngIf="cus_name.touched && cus_name.invalid" class="error-message">
+                    <div *ngIf="cus_name.errors.required">Name is required!</div>
+                    <div *ngIf="cus_name.errors.pattern">Invalid name!</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="form-group">
+                  <label class="title-1" for="mobile">Mobile <span class="required"> *</span></label>
+                  <input [formControl]="cus_mobile" class="form-control custom-input-style" id="mobile" placeholder="Mobile"
+                         type="text">
+                  <div *ngIf="cus_mobile.touched && cus_mobile.invalid" class="error-message">
+                    <div *ngIf="cus_mobile.errors.required">Mobile is required!</div>
+                    <div *ngIf="cus_mobile.errors.pattern">Invalid mobile!</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="form-group">
+                  <label class="title-1" for="address">Address <span class="required"> *</span></label>
+                  <input [formControl]="cus_address" class="form-control custom-input-style" id="address"
+                         placeholder="Address"
+                         type="text">
+                  <div *ngIf="cus_address.touched && cus_address.invalid" class="error-message">
+                    <div *ngIf="cus_address.errors.required">Address is required!</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="btn-container">
+                  <button (cancel)="''"
+                          (confirm)="cancel(savebtn)"
+                          [disabled]="customerForm.disabled"
+                          [popoverMessage]="'Cancel Confirmation'"
+                          [popoverTitle]="'Cancel Confirmation'"
+                          class="btn custom-cancel-close-btn-style"
+                          mwlConfirmationPopover
+                          placement="top">
+                    Cancel
+                  </button>
+
+                  <button #savebtn
+                          (cancel)="''"
+                          (confirm)="saveCustomer(savebtn)"
+                          [disabled]="customerForm.disabled"
+                          [popoverMessage]="'Are you sure to add?'"
+                          [popoverTitle]="'Add Confirmation'"
+                          class="btn custom-ok-save-btn-style"
+                          mwlConfirmationPopover
+                          placement="top">
+                    Save
+                  </button>
+                </div>
+              </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </div>

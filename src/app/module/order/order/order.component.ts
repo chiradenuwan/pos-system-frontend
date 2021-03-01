@@ -42,6 +42,23 @@ export class OrderComponent implements OnInit {
     grandtotal: new FormControl(0, [Validators.pattern('^[0-9]{0,}(.)[0-9]{0,}$')])
   });
 
+  customerForm = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    address: new FormControl('', [Validators.required]),
+    mobile: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{0,}(.)[0-9]{0,}$')]),
+  });
+  get cus_name(): any {
+    return this.customerForm.get('name');
+  }
+
+  get cus_mobile(): any {
+    return this.customerForm.get('mobile');
+  }
+
+  get cus_address(): any {
+    return this.customerForm.get('address');
+  }
+
   constructor(private spinner: NgxSpinnerService, private itemService: ItemService, private customerService: CustomerService,
               private alertService: AlertService, private orderService: OrderService) {
   }
@@ -115,6 +132,7 @@ export class OrderComponent implements OnInit {
   /****************************** start cancel**************************/
   async cancel(savebtn: HTMLButtonElement): Promise<any> {
     this.orderForm.reset();
+    this.customerForm.reset();
     savebtn.innerText = 'Add to cart';
   }
 
@@ -369,4 +387,32 @@ export class OrderComponent implements OnInit {
   }
 
   /****************************** end sub total**************************/
+
+  /******************************** start save customer**********************************/
+  async saveCustomer(savebtn: HTMLButtonElement): Promise<boolean> {
+    return new Promise(resolve => {
+
+      const customer = new Customer(this.cus_name.value, this.cus_mobile.value, this.cus_address.value);
+      this.customerService.saveCustomer(customer).subscribe((res: any) => {
+
+        if (res.message === 'Successfully saved!') {
+          this.allCustomer.push(res.object);
+          this.cancel(savebtn);
+          this.alertService.success(res.message);
+          resolve(true);
+        } else {
+          this.alertService.warning(res.message);
+          resolve(false);
+        }
+
+      }, (error: any) => {
+
+        this.alertService.danger(this.alertJson.backendError);
+        resolve(false);
+      });
+    });
+  }
+
+  /******************************** end save customer**********************************/
+
 }
