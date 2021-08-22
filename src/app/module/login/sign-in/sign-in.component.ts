@@ -64,7 +64,7 @@ export class SignInComponent implements OnInit {
 
           if (res.code === 200) {
             const data = new User(res.object.id, res.object.name, res.object.username);
-            if (!isRemember) {
+            if (isRemember) {
               localStorage.setItem('user', JSON.stringify(data));
               localStorage.setItem('token', JSON.stringify(res.message));
             } else {
